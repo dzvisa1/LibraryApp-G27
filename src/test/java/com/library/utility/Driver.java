@@ -11,41 +11,34 @@ import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 public class Driver {
-    /*
-    Creating a private constructor, so we are closing access to the object of this class
-    from outside of any classes
-    */
-    private Driver(){}
+    // Creating a private constructor, we are closing access to the
+    // object of this class from outside the class
+    private Driver() {
+    }
 
-    /*
-    Making our 'driver' instance private, so that it is not reachable from outside of any class
-    We make it static, because we want it to run before anyting else,
-    also we will use it in static method
-     */
+    // We make WebDriver private, because we want to close access from outside of class
+    // We make it static, because we will use it inside static method
+    //
+    //private static WebDriver driver; // value is null by default
+
     private static InheritableThreadLocal<WebDriver> driverPool = new InheritableThreadLocal<>();
 
-    /*
-    Create re-usable utility method which will return same driver instance when we call it.
-     */
-    public static WebDriver getDriver(){
-        String browserType="";
-        if(driverPool.get() == null){  // if driver/browser was never opened
 
-            if(System.getProperty("BROWSER")==null){
-                browserType = ConfigurationReader.getProperty("browser");
-            }else {
-                browserType=System.getProperty("BROWSER");
-            }
+    // Create a re-usable utility method which will return same driver instance when we call it
+    public static WebDriver getDriver() {
 
-        /*
-        Depending on the browserType our switch statement will determine
-        to open specific type of browser/driver
-         */
-            switch(browserType){
+        // it will check if driver is null and if it is we will set up browser inside if statement
+        // if you already setup driver and using it again for following line of codes, it will return to same driver
+        if (driverPool.get() == null) {
+            String browserName = System.getProperty("browser") != null ? browserName = System.getProperty("browser") : ConfigurationReader.getProperty("browser");
+
+
+
+            switch(browserName){
                 case "remote-chrome":
                     try {
                         // assign your grid server address
-                        String gridAddress = "54.221.162.27";
+                        String gridAddress = "52.90.101.17";
                         URL url = new URL("http://"+ gridAddress + ":4444/wd/hub");
                         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
                         desiredCapabilities.setBrowserName("chrome");
@@ -59,7 +52,7 @@ public class Driver {
                 case "remote-firefox":
                     try {
                         // assign your grid server address
-                        String gridAddress = "54.221.162.27";
+                        String gridAddress = "52.90.101.17";
                         URL url = new URL("http://"+ gridAddress + ":4444/wd/hub");
                         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
                         desiredCapabilities.setBrowserName("firefox");
@@ -70,7 +63,6 @@ public class Driver {
                         e.printStackTrace();
                     }
                     break;
-
                 case "chrome":
                     WebDriverManager.chromedriver().setup();
                     driverPool.set(new ChromeDriver());
@@ -83,21 +75,21 @@ public class Driver {
                     driverPool.get().manage().window().maximize();
                     driverPool.get().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
                     break;
-
             }
+
         }
 
-        // Same driver instance will be returned every time we call Driver.getDriver() method
         return driverPool.get();
 
     }
 
-
+    // This method will make sure our driver value is always null after using quit() method
     public static void closeDriver(){
-        if(driverPool.get() != null) {
-            driverPool.get().quit(); // this line will kill the session. value will not be null
-            driverPool.remove();
+        if(driverPool.get() != null){
+            driverPool.get().quit(); // this line will terminate the existing driver session. with using this driver will not be even null
+            driverPool.remove();  //driver = null
         }
+
     }
 }
 

@@ -1,8 +1,11 @@
 package com.library.step_definitions;
 
 import com.library.pages.BookPage;
+import com.library.pages.DashBoardPage;
+import com.library.utility.BrowserUtil;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.Assert;
 
 import java.util.List;
 
@@ -21,7 +24,7 @@ public class BooksStepDefs {
 
     @When("the user gets all book categories in webpage")
     public void the_user_gets_all_book_categories_in_webpage() {
-        actualCategoryList=BrowserUtil.getAllSelectOptions(bookPage.mainCategoryElement);
+        actualCategoryList= BrowserUtil.getAllSelectOptions(bookPage.mainCategoryElement);
         actualCategoryList.remove(0);
         System.out.println("actualCategoryList = " + actualCategoryList);
     }

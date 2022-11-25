@@ -10,10 +10,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
-public class BrowserUtils {
+public class BrowserUtil {
 
     /**
      * Switches to new window by the exact title. Returns to original window if target title not found
