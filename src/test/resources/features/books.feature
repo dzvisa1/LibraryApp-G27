@@ -1,4 +1,4 @@
-@smoke
+@smoke1
 Feature: Book Category
 
   Scenario: verify book categories with UI
