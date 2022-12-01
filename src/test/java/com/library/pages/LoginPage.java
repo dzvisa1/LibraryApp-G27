@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class LoginPage {
+public class LoginPage extends BasePage{
     public LoginPage() {
         PageFactory.initElements(Driver.getDriver(), this);
     }
@@ -24,11 +24,18 @@ public class LoginPage {
 
     public void login(String userType){
 
-        String username= ConfigurationReader.getProperty(userType+"username");
+        String username=ConfigurationReader.getProperty(userType+"_username");
         String password=ConfigurationReader.getProperty("password");
 
-
         emailBox.sendKeys(username);
+        passwordBox.sendKeys(password);
+        loginButton.click();
+
+    }
+
+    public void login(String email,String password){
+
+        emailBox.sendKeys(email);
         passwordBox.sendKeys(password);
         loginButton.click();
 

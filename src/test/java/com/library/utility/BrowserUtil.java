@@ -385,5 +385,11 @@ public class BrowserUtil {
         return getElementsText(select.getOptions());
 
     }
+    public static void selectByVisibleText(WebElement element,String option){
+
+        Select select=new Select(element);
+        select.selectByVisibleText(option);
+    }
+
 }
 
