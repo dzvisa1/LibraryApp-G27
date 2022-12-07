@@ -13,13 +13,13 @@ public class Dolly_US1_StepsDefs {
     @Given("Establish the database connection")
     public void establish_the_database_connection() {
         System.out.println("*****************************");
-        //DB_Util.createConnection(); -> we will manage it via Hooks
+
         System.out.println("CONNECTION IS HANDLED VIA HOOKS");
         System.out.println("*****************************");
     }
     @When("Execute query to get all IDs from users")
     public void execute_query_to_get_all_i_ds_from_users() {
-        String query1="select count(id) from users";  // 566
+        String query1="select count(id) from users";
 
         DB_Util.runQuery(query1);
 
@@ -30,7 +30,7 @@ public class Dolly_US1_StepsDefs {
     }
     @Then("verify all users has unique ID")
     public void verify_all_users_has_unique_id() {
-        String query2="select count(distinct id) from users"; // 566   500
+        String query2="select count(distinct id) from users";
 
 
         DB_Util.runQuery(query2);
